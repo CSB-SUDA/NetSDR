@@ -11,6 +11,31 @@
 * Combining protein expression with drug sensitivity data guides the construction of drug response networks.
 * GSK1904529A displays prospect as a repurposable drug for G-IV by targeting LAMB2.
 
+## Installation
+### Requirements
+* R
+* Anaconda3
+
+### Installation of DRNMDRN
+Use the install_github function from the devtools library to download and install the DRNMDRN package.
+```
+install.packages("devtools")
+library(devtools)
+install_github("Bin-suda/DRNMDRN")
+```
+
+### Installation of DeepPurpose and ProDy
+Use anaconda3 to install the DeepPurpose tool. Open the command line terminal and enter the following command:
+```
+git clone https://github.com/kexinhuang12345/DeepPurpose.git
+cd DeepPurpose
+conda env create -f environment.yml
+conda activate DeepPurpose
+pip install prody
+conda deactivate 
+```
+For more details about DeepPurpose, please visit https://github.com/kexinhuang12345/DeepPurpose
+
 ## Usage
 
 ### Package organization
