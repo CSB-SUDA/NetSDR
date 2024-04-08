@@ -54,33 +54,36 @@ DRNMDRN/
 
 ### Usage Example
 
-* `Step1：Identify subtype-specific modules.`
+#### Step1：Identify subtype-specific modules.
 ```
 # Load the proteome expression profiles and grouping information of subtypes.
 data(Expr_Group)
 getModule(exprDF=Expr,groupDF=Group,subtype="G-IV")
 ```
 The `getModule` function accepts three parameters:
-* _exprDF_:
-* _groupDF_:
-* _subtype_:
+* _exprDF_: A data frame storing expression values, with rows representing proteins and columns representing samples.
+* _groupDF_: A data frame storing subtype information, with the first column being samples and the second column being subtype grouping.
+* _subtype_: A vector representing the analysis of a specific subtype.
 
-disease_genes: a data frame containing disease gene names in a single column.
-enlarge_network: a logical parameter indicating whether to expand the network.
-
-* `Step2：Build a drug response network.`
-
-
+It generated several result files, as follows:
+* The signature proteins are saved in the _'signature.csv'_ file.
+* The _'edges.txt'_ file stores the subtype-specific network
+* The _'node_Module.txt'_ and _'edge_Module.txt'_ files provide information on the nodes and edges of robust modules, respectively.
 
 
-
-* `Step3：Perform PRS-based Drug Repurposing.`
+#### Step2：Build a drug response network.
 
 
 
 
 
-* `Step4：Run ROC analysis.`
+#### Step3：Perform PRS-based Drug Repurposing.
+
+
+
+
+
+#### Step4：Run ROC analysis.
 
 
 
