@@ -22,6 +22,7 @@ Use the install_github function from the devtools library to download and instal
 install.packages("devtools")
 library(devtools)
 install_github("Bin-suda/DRNMDRN")
+library(DRNMDRN)
 ```
 
 ### Installation of DeepPurpose and ProDy
@@ -40,29 +41,51 @@ For more details about DeepPurpose, please visit https://github.com/kexinhuang12
 
 ### Package organization
 ```
-DTANetPerturbeR/
+DRNMDRN/
 ├── LICENSE
 ├── README.md
-├── R/           <- Contains R scripts for network construction and target module identification.
+├── R/           <- Contains R scripts for the above framework calculations.
 ├── data/        <- Contains data files used by the package.
-├── inst/        <- Contains Python scripts for PRS-based drug repurposing calculation.
 ├── man/         <- Contains .Rd help documentation.
 ├── DESCRIPTION  <- Package metadata.
 └── NAMESPACE    <- Package namespace information.
 ```
+[pipline]
 
-* `Step1：Construct Disease Network.`
-* `Step2：Identify Target Module.`
-* `Step3：Perform Drug Repurposing.`
+### Usage Example
 
-The **runDrugScoring.R** script is used to predict the binding affinity between drugs and targets, and calculates drug repurposing scores through PRS-based algorithm.
-
+* `Step1：Identify subtype-specific modules.`
 ```
-├── Step3
-│ ├── predict_binding_affinity.py
-│ ├── calculate_PRS.py
-└── runDrugScoring.R <---
+# Load the proteome expression profiles and grouping information of subtypes.
+data(Expr_Group)
+getModule(exprDF=Expr,groupDF=Group,subtype="G-IV")
 ```
+The `getModule` function accepts three parameters:
+* _exprDF_:
+* _groupDF_:
+* _subtype_:
+
+disease_genes: a data frame containing disease gene names in a single column.
+enlarge_network: a logical parameter indicating whether to expand the network.
+
+* `Step2：Build a drug response network.`
+
+
+
+
+
+* `Step3：Perform PRS-based Drug Repurposing.`
+
+
+
+
+
+* `Step4：Run ROC analysis.`
+
+
+
+
+
 
 一、标题写法：  
 第一种方法：  
