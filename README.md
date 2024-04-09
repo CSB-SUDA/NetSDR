@@ -53,7 +53,7 @@ DRNMDRN/
 
 ### Usage Example
 
-#### Step1：Identify subtype-specific modules.
+#### Step1: Identify subtype-specific modules.
 ```
 # Load the proteome expression profiles and grouping information of subtypes.
 data(Expr_Group)
@@ -69,10 +69,10 @@ It generates several result files, as follows:
 * The _'edges.txt'_ file stores the subtype-specific network
 * The _'node_Module.txt'_ and _'edge_Module.txt'_ files provide information on the nodes and edges of robust modules, respectively.
 
-Then, the module associated with drug response were identified. A drug response network is constructed on this module, and drug repositioning based on PRS is performed.The method and implementation are as shown in the following figure and [**Step 2**](#Step 2), **Step 3**.
+Then, the module associated with drug response were identified. A drug response network is constructed on this module, and drug repositioning based on PRS is performed.The method and implementation are as shown in the following figure and [**Step 2**](#Step2:-Build-a-drug-response-network.), **Step 3**.
 ![Method](Picture/Method.png)
 
-#### Step2：Build a drug response network.
+#### Step2: Build a drug response network.
 ```
 # For example
 moduleDF <- Expr[1:50,1:20]
@@ -84,7 +84,7 @@ DRN_ls <- getDRN(moduleDF,drugDF)
 At first, it predicts the clinical drug response of patients within a specific subtype based on module expression `moduleDF` specific to that subtype. Then, They are utilized to predict potential interactions between the drug and the protein.
 It returns a list containing the drug response network and its node information.
 
-#### Step3：Perform PRS-based Drug Repurposing.
+#### Step3: Perform PRS-based Drug Repurposing.
 ```
 # Load the the constructed drug response network (DRN)
 data(DRN)
@@ -115,7 +115,7 @@ The `getPS` function accepts four parameters:
 * _path_: The path to the enm package. Its code is downloaded from https://github.com/oacar/enm_package, which can be placed in any path.
 It returns a data frame contains the ps and saves it in the "prd_dti_score.csv" file.
 
-#### Step4：Run ROC analysis.
+#### Step4: Run ROC analysis.
 ```
 # Read the file containing the ps scores obtained in the previous step
 DPI <- read.csv("prd_dti_score.csv")
