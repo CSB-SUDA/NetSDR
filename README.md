@@ -2,7 +2,7 @@
 
 # Drug Repositioning for Cancers - based on network modularization and drug response network
 
-## Graph abstract
+## Framework
 ![Framework](Picture/Framework.png)
 
 ## Highlights  
