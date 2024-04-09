@@ -101,7 +101,7 @@ It initially predicts the binding affinity between drugs and proteins in the DRN
 
 The `getAffinity` function accepts six parameters:
 * _smilesDF_: A data frame with two columns named "drug" and "SMILES".
-* _seqDF_: A data frame with "Protein" and "Sequence" columns.
+* _seqDF_: A data frame with "protein" and "Sequence" columns.
 * _DRN_: A data frame contains two columns: "drug" and "protein".
 * _condaenv_: The virtual environment path for DeepPurpose installed using anaconda3.
 * _path_: The path where the DeepPurpose package is located.
