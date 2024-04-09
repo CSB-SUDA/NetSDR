@@ -70,10 +70,9 @@ It generates several result files, as follows:
 * The _'edges.txt'_ file stores the subtype-specific network
 * The _'node_Module.txt'_ and _'edge_Module.txt'_ files provide information on the nodes and edges of robust modules, respectively.
 
-
 #### Step2：Build a drug response network.
 ```
-# for example
+# For example
 moduleDF <- Expr[1:50,1:20]
 data(Expr_Group)
 sig_count <- getModuleResponse(moduleDF)
@@ -84,12 +83,42 @@ At first, it predicts the clinical drug response of patients within a specific s
 It returns a list containing the drug response network and its node information.
 
 #### Step3：Perform PRS-based Drug Repurposing.
+```
+# Load the the constructed drug response network (DRN)
+data(DRN)
+# Load the simplified molecular input line entry system(SMILES) format of the drugs
+data(drug_smiles)
+# Load the amino acid sequences of the proteins
+data(protein_sequences)
+# Predict the binding affinity between drugs and proteins
+getAffinity(smilesDF=smiles,seqDF=seqs,DRN=DRN,condaenv="C:/Users/A/.conda/envs/DeepPurpose",path="C:/Users/A/DeepPurpose")
+# Calculat drug score(ps) using PRS methods for DRN.
+getPS(BA_file="data/virtual_screening.txt",PPIN_file="data/edge.txt",condaenv="C:/Users/A/.conda/envs/DeepPurpose",path="D:/enm_package-master")
+```
+It initially predicts the binding affinity between drugs and proteins in the DRN, and then performs a drug repositioning method based on PRS to rank the DPIs.
 
+The `getAffinity` function accepts six parameters:
+* _smilesDF_: A data frame with two columns named "drug" and "SMILES".
+* _seqDF_: A data frame with "Protein" and "Sequence" columns.
+* _DRN_: A data frame contains two columns: "drug" and "protein".
+* _condaenv_: The virtual environment path for DeepPurpose installed using anaconda3.
+* _path_: The path where the DeepPurpose package is located.
+* _pretrained_model_: The DeepPurpose model type used, which defaults to 'MPNN_CNN_BindingDB_IC50'.
+It outputs the results to the "result/virtual_screening.txt" file.
 
-
-
+The `getPS` function accepts four parameters:
+* _BA_file_: The path to the binding affinity file predicted by the `getAffinity` function.
+* _PPIN_file_: The path to the PPI network file (or to a certain module).
+* _condaenv_: The virtual environment path for DeepPurpose installed using anaconda3, to maintain consistency in Python.
+* _path_: The path to the enm package. Its code is downloaded from https://github.com/oacar/enm_package, which can be placed in any path.
+It returns a data frame contains the ps and saves it in the "prd_dti_score.csv" file.
 
 #### Step4：Run ROC analysis.
+```
+# Read the file containing the ps scores obtained in the previous step
+DPI <- read.csv("prd_dti_score.csv")
+runROC(pred_DPI=DPI)
+```
+The parameter _pred_DPI_ of function `runROC` is a data frame contains DPIs and their ps. It perform ROC analysis for different ps cut-off in sequence and returns their AUCs.
 
-
-
+> ***Note:*** _For more detailed information about each function, please refer to the function comments in the respective script._
