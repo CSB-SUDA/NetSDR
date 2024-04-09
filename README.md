@@ -118,6 +118,7 @@ It returns a data frame contains the ps and saves it in the "prs_dti_score.csv" 
 ```
 # Read the file containing the ps scores obtained in the previous step
 DPI <- read.csv("prs_dti_score.csv")
+DPI <- DPI[,c("Drug.Name","Target.Name","score")]
 runROC(pred_DPI=DPI)
 ```
 The parameter _pred_DPI_ of function `runROC` is a data frame contains DPIs and their ps. It perform the ROC analysis for different ps cut-off in sequence and returns their AUCs.
