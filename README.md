@@ -50,7 +50,6 @@ DRNMDRN/
 ├── DESCRIPTION  <- Package metadata.
 └── NAMESPACE    <- Package namespace information.
 ```
-[pipline]
 
 ### Usage Example
 
@@ -69,6 +68,9 @@ It generates several result files, as follows:
 * The signature proteins are saved in the _'signature.csv'_ file.
 * The _'edges.txt'_ file stores the subtype-specific network
 * The _'node_Module.txt'_ and _'edge_Module.txt'_ files provide information on the nodes and edges of robust modules, respectively.
+
+Then, the module associated with drug response were identified. A drug response network is constructed on this module, and drug repositioning based on PRS is performed.The method and implementation are as shown in the following figure and **Step 2**, **Step 3**.
+![Method](Picture/Method.png)
 
 #### Step2：Build a drug response network.
 ```
