@@ -1,5 +1,5 @@
 #' @title Calculat drug score(ps) using PRS methods for DRN.
-#' @description This function uses the PRS algorithm to calculate the ps of DPIs and saves it in the "prd_dti_score.csv" file.
+#' @description This function uses the PRS algorithm to calculate the ps of DPIs and saves it in the "prs_dti_score.csv" file.
 #'
 #' @param BA_file The path to the predicted binding affinity file.
 #' @param PPIN_file The path to the PPI network file (or to a certain module).
