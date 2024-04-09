@@ -19,7 +19,7 @@ getPS(BA_file, PPIN_file, condaenv, path)
 A data frame contains the ps of DPI.
 }
 \description{
-This function uses the PRS algorithm to calculate the ps of DPIs and saves it in the "prd_dti_score.csv" file.
+This function uses the PRS algorithm to calculate the ps of DPIs and saves it in the "prs_dti_score.csv" file.
 }
 \examples{
 \dontrun{
