@@ -94,7 +94,7 @@ data(protein_sequences)
 # Predict the binding affinity between drugs and proteins
 getAffinity(smilesDF=smiles,seqDF=seqs,DRN=DRN,condaenv="C:/Users/A/.conda/envs/DeepPurpose",path="C:/Users/A/DeepPurpose")
 # Calculat drug score(ps) using PRS methods for DRN.
-getPS(BA_file="data/virtual_screening.txt",PPIN_file="data/edge.txt",condaenv="C:/Users/A/.conda/envs/DeepPurpose",path="D:/enm_package-master")
+getPS(BA_file="result/virtual_screening.txt",PPIN_file="edge.txt",condaenv="C:/Users/A/.conda/envs/DeepPurpose",path="D:/enm_package-master")
 ```
 It initially predicts the binding affinity between drugs and proteins in the DRN, and then performs a drug repositioning method based on PRS to rank the DPIs.
 
@@ -112,12 +112,12 @@ The `getPS` function accepts four parameters:
 * _PPIN_file_: The path to the PPI network file (or to a certain module).
 * _condaenv_: The virtual environment path for DeepPurpose installed using anaconda3, to maintain consistency in Python.
 * _path_: The path to the enm package. Its code is downloaded from https://github.com/oacar/enm_package, which can be placed in any path.
-It returns a data frame contains the ps and saves it in the "prd_dti_score.csv" file.
+It returns a data frame contains the ps and saves it in the "prs_dti_score.csv" file.
 
 #### Step4: Run ROC analysis.
 ```
 # Read the file containing the ps scores obtained in the previous step
-DPI <- read.csv("prd_dti_score.csv")
+DPI <- read.csv("prs_dti_score.csv")
 runROC(pred_DPI=DPI)
 ```
 The parameter _pred_DPI_ of function `runROC` is a data frame contains DPIs and their ps. It perform the ROC analysis for different ps cut-off in sequence and returns their AUCs.
