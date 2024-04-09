@@ -76,7 +76,6 @@ Then, the module associated with drug response were identified. A drug response 
 ```
 # For example
 moduleDF <- Expr[1:50,1:20]
-data(Expr_Group)
 sig_count <- getModuleResponse(moduleDF)
 drugDF <- read.csv("calcPhenotype_Output/DrugPredictions.csv",row.names = 1,check.names = F)
 DRN_ls <- getDRN(moduleDF,drugDF)
