@@ -5,7 +5,7 @@
 #'     the subtype-specific network, while the 'node_Module.txt' and 'edge_Module.txt' files provide
 #'     information on the nodes and edges of robust modules, respectively.
 #'
-#' @param exprDF A data frame storing expression values, with rows representing proteins and columns representing samples.
+#' @param exprDF A data frame storing expression values without log2 transformation, with rows representing proteins and columns representing samples.
 #' @param groupDF A data frame storing subtype information, with the first column being samples and the second column being subtype grouping.
 #' @param subtype A vector representing the analysis of a specific subtype.
 #'
@@ -59,6 +59,7 @@ getModule <- function(exprDF,groupDF,subtype){
 
   message("Identify network modules...", appendLF = T)
   data("HPPIN")
+
   # Map signature proteins to human protein-protein interaction network
   network <- HPPIN[HPPIN$node1%in%signature$protein & HPPIN$node2%in%signature$protein,]
 

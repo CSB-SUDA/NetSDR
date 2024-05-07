@@ -17,8 +17,8 @@
 #'
 getModuleResponse <- function(moduleDF){
 
-  data(GDSC2_Expr)
-  data(GDSC2_Res)
+  data("GDSC2_Expr")
+  data("GDSC2_Res")
 
   # Predict patients' clinical responses based on module expressions.
   testExpr<- as.matrix(moduleDF)

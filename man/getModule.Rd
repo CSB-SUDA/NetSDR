@@ -7,7 +7,7 @@
 getModule(exprDF, groupDF, subtype)
 }
 \arguments{
-\item{exprDF}{A data frame storing expression values, with rows representing proteins and columns representing samples.}
+\item{exprDF}{A data frame storing expression values without log2 transformation, with rows representing proteins and columns representing samples.}
 
 \item{groupDF}{A data frame storing subtype information, with the first column being samples and the second column being subtype grouping.}
 

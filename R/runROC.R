@@ -18,6 +18,7 @@ runROC <- function(pred_DPI){
   # Load known drug-target interaction information
   data("DTI_TTD")
   data("DTI_DrugBank")
+
   drug2target <- rbind(TTD,DrugBank)
   drug2target$DrugName <- toupper(drug2target$DrugName)
   drug2target <- unique(drug2target)
