@@ -16,7 +16,7 @@
 * Anaconda3
 
 ### Installation of NetSDR
-Use the install_github function from the devtools library to download and install the DRNMDRN package.
+Use the install_github function from the devtools library to download and install the NetSDR package.
 ```
 install.packages("devtools")
 library(devtools)
