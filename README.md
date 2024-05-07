@@ -112,7 +112,7 @@ The `getPS` function accepts four parameters:
 * _path_: The path to the enm package. Its code is downloaded from https://github.com/oacar/enm_package, which can be placed in any path.
 It returns a data frame contains the ps and saves it in the "prs_dti_score.csv" file.
 
-#### Run ROC analysis.
+***Run ROC analysis***
 ```
 # Read the file containing the ps scores obtained in the previous step
 DPI <- read.csv("prs_dti_score.csv")
