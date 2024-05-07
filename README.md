@@ -1,28 +1,27 @@
-# DRNMDRN
+# NetSDR
 
-# Drug Repositioning for Cancers - based on network modularization and drug response network
+# Drug Repositioning for Cancers based on subtype-specific network modularization and drug response network
 
 ## Framework
 ![Framework](Picture/Framework.png)
 
 ## Highlights  
-* A comprehensive computational framework integrating expression profiles, network topology, and biophysics is developed.
-* The ECM module of G-IV characterized by poor prognosis can also serve as a therapeutic target.
-* Combining protein expression with drug sensitivity data guides the construction of drug response networks.
-* GSK1904529A displays prospect as a repurposable drug for G-IV by targeting LAMB2.
+* We proposed the NetSDR framework for drug repurposing for different can-cer subtypes.
+*	NetSDR integrated, proteomics and drug sensitivity data by network topol-ogyand biophysics-based analysis.
+*	Apply NetSDR to gastric cancer revealed GSK1904529A as a repurposable drug for G-IV by targeting LAMB2.
 
 ## Installation
 ### Requirements
 * R
 * Anaconda3
 
-### Installation of DRNMDRN
+### Installation of NetSDR
 Use the install_github function from the devtools library to download and install the DRNMDRN package.
 ```
 install.packages("devtools")
 library(devtools)
-install_github("Bin-suda/DRNMDRN")
-library(DRNMDRN)
+install_github("Bin-suda/NetSDR")
+library(NetSDR)
 ```
 
 ### Installation of DeepPurpose and ProDy
@@ -41,7 +40,7 @@ For more details about DeepPurpose, please visit https://github.com/kexinhuang12
 
 ### Package organization
 ```
-DRNMDRN/
+NetSDR/
 ├── LICENSE
 ├── README.md
 ├── R/           <- Contains R scripts for the above framework calculations.
@@ -69,8 +68,7 @@ It generates several result files, as follows:
 * The _'edges.txt'_ file stores the subtype-specific network
 * The _'node_Module.txt'_ and _'edge_Module.txt'_ files provide information on the nodes and edges of robust modules, respectively.
 
-Then, the module associated with drug response were identified. A drug response network is constructed on this module, and drug repositioning based on PRS is performed.The method and implementation are as shown in **the following figure** and **Step 2**, **Step 3**.
-![Method](Picture/Method.png)
+Then, the module associated with drug response were identified. A drug response network is constructed on this module, and drug repositioning based on PRS is performed.
 
 #### Step2: Build a drug response network.
 ```
@@ -114,7 +112,7 @@ The `getPS` function accepts four parameters:
 * _path_: The path to the enm package. Its code is downloaded from https://github.com/oacar/enm_package, which can be placed in any path.
 It returns a data frame contains the ps and saves it in the "prs_dti_score.csv" file.
 
-#### Step4: Run ROC analysis.
+#### Run ROC analysis.
 ```
 # Read the file containing the ps scores obtained in the previous step
 DPI <- read.csv("prs_dti_score.csv")
