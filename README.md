@@ -1,6 +1,6 @@
 # NetSDR
 
-# Drug Repositioning for Cancers based on subtype-specific network modularization and drug response network
+# Drug repurposing for cancers based on subtype-specific network modularization and drug perturbation analysis
 
 ## Framework
 ![Framework](Picture/Framework.png)
