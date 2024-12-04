@@ -159,7 +159,7 @@ The `getAffinity` function can predicts the binding affinity, with five paramete
 
 The `getPS` function accepts four parameters:
 * _BA_file_: The path to the binding affinity file predicted by the `getAffinity` function, such as "NetSDR_results/PS/result/virtual_screening.txt".
-* _PPIN_file_: The path to the PPI network file (or to a certain module). This file contains protein-protein interactions with columns named gene1 and gene2
+* _PPIN_file_: The path to the PPI network file. This file contains protein-protein interactions with columns named gene1 and gene2.
 * _py_env_: The virtual environment path for py3.9 installed using anaconda3, same as  `getAffinity`.
 > **It returns a data frame contains the ps and saves it in the "NetSDR_results/PS/prs_dti_score.csv" file.**
 
