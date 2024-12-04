@@ -155,14 +155,12 @@ The `getAffinity` function can predicts the binding affinity, with five paramete
 * _DRN_file_: The path of the file storing the predicted drug response network by `getDRN` function, such as: DRN_file = "NetSDR_results/DRN/DRN.txt".
 * _py_env_: The virtual environment path for py3.9 installed using anaconda3, which can be obtained by running `conda env list` in `Anaconda Prompt`.
 * _pretrained_model_: The DeepPurpose model type used, which defaults to 'MPNN_CNN_BindingDB_IC50'.
-* 
 **It outputs the result file "result/virtual_screening.txt" in "NetSDR_results/PS" dir, which is used for ps calculation.**
 
 The `getPS` function accepts four parameters:
 * _BA_file_: The path to the binding affinity file predicted by the `getAffinity` function, such as "NetSDR_results/PS/result/virtual_screening.txt".
 * _PPIN_file_: The path to the PPI network file (or to a certain module). This file contains protein-protein interactions with columns named gene1 and gene2
 * _py_env_: The virtual environment path for py3.9 installed using anaconda3, same as  `getAffinity`.
-* 
 **It returns a data frame contains the ps and saves it in the "NetSDR_results/PS/prs_dti_score.csv" file.**
 
 ```
@@ -180,12 +178,6 @@ PPIN_file <- "inst/extdata/edge_module.txt"
 getPS(BA_file,PPIN_file,py_env)
 ```
 
-The `getPS` function accepts four parameters:
-* _BA_file_: The path to the binding affinity file predicted by the `getAffinity` function.
-* _PPIN_file_: The path to the PPI network file (or to a certain module).
-* _condaenv_: The virtual environment path for DeepPurpose installed using anaconda3, to maintain consistency in Python.
-* _path_: The path to the enm package. Its code is downloaded from https://github.com/oacar/enm_package, which can be placed in any path.
-It returns a data frame contains the ps and saves it in the "prs_dti_score.csv" file.
 
 ***Run ROC analysis***
 ```
