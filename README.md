@@ -38,7 +38,7 @@ Use the install_github function from the devtools library to download and instal
 ```
 install.packages("devtools")
 library(devtools)
-install_github("Bin-suda/NetSDR")
+install_github("CSB-SUDA/NetSDR")
 library(NetSDR)
 ```
 
