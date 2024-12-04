@@ -3,25 +3,32 @@
 #'     based on the expression profile of the module, and calculates the number of drugs whose
 #'     sensitivity score is affected by the expression of the module.
 #'
-#' @param moduleDF A data frame storing expression values of the module, with rows representing proteins and columns representing samples.
+#' @param expr_file Expression profile of the module, with rows representing proteins and columns representing samples.
 #'
-#' @return The number of significantly affected and unaffected drugs.
+#' @return This function doesn't return anything, but saves the results to the "NetSDR_results/DRN" files.
 #' @import utils oncoPredict ConsensusClusterPlus
 #' @importFrom stats phyper wilcox.test
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#'   sig_count <- getModuleResponse(moduleDF)
+#'   expr_file <- "inst/extdata/expression_module.txt"
+#'   getModuleResponse(expr_file)
 #' }
 #'
-getModuleResponse <- function(moduleDF){
+
+getModuleResponse <- function(expr_file){
 
   data("GDSC2_Expr")
   data("GDSC2_Res")
+  testData <- read.table(expr_file,header=T,sep = "\t",row.names = 1)
+
+  out_dir <- "NetSDR_results/DRN"
+  dir.create(out_dir,recursive = T)
+  setwd(out_dir)
 
   # Predict patients' clinical responses based on module expressions.
-  testExpr<- as.matrix(moduleDF)
+  testExpr <- as.matrix(testData)
   calcPhenotype(trainingExprData = GDSC2_Expr,
                 trainingPtype = GDSC2_Res,
                 testExprData = testExpr,
@@ -34,7 +41,7 @@ getModuleResponse <- function(moduleDF){
                 cc = TRUE)
 
   # Divide the patients into two groups.
-  moduleData <- moduleDF[,colSums(moduleDF) != 0 ]
+  moduleData <- testData[,colSums(testData) != 0 ]
   moduleData <- as.matrix(moduleData)
   ConsensusClusterPlus(moduleData, maxK = 3,
                        reps = 1000, pItem = 0.8,
@@ -42,12 +49,12 @@ getModuleResponse <- function(moduleDF){
                        seed = 10000,
                        clusterAlg = "pam",
                        distance = "pearson",
-                       title = "sample.cluster",
+                       title = "./sample.cluster",
                        plot = "png",
                        writeTable=TRUE)
 
   # Compare the drug sensitivity scores of the two groups of patients.
-  drugData <- read.csv("./calcPhenotype_Output/DrugPredictions.csv")
+  drugData <- read.csv("./calcPhenotype_Output/DrugPredictions.csv",check.names = F)
   colnames(drugData)[1] <- "Sample"
   cluster <- read.csv("./sample.cluster/sample.cluster.k=2.consensusClass.csv",header = FALSE)
   colnames(cluster) <- c("Sample","Cluster")
@@ -70,6 +77,9 @@ getModuleResponse <- function(moduleDF){
   countSig <- c(sum(drugSig$label=="non-sig"),sum(drugSig$label !="non-sig"))
   sigCount <- data.frame(label = c("non-sig","sig"),count = countSig)
   write.csv(sigCount,"./drug_response_level.csv", row.names = F,quote = F)
-  return(sigCount)
+
+  message("Clinical response assessment completed!")
+  setwd("../..")
+
 
 }

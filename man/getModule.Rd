@@ -4,17 +4,19 @@
 \alias{getModule}
 \title{Identify subtype-specific network modules}
 \usage{
-getModule(exprDF, groupDF, subtype)
+getModule(expr_file, group_file, subtype, ppi_file)
 }
 \arguments{
-\item{exprDF}{A data frame storing expression values without log2 transformation, with rows representing proteins and columns representing samples.}
+\item{expr_file}{Expression profile without log2 transformation, with rows representing proteins and columns representing samples.}
 
-\item{groupDF}{A data frame storing subtype information, with the first column being samples and the second column being subtype grouping.}
+\item{group_file}{Subtype information, with the first column being samples and the second column being subtype grouping.}
 
 \item{subtype}{A vector representing the analysis of a specific subtype.}
+
+\item{ppi_file}{Interactome data used to construct networks.}
 }
 \value{
-This function doesn't return anything, but saves the results to the specified files.
+This function doesn't return anything, but saves the results to the "NetSDR_results/Modules" files.
 }
 \description{
 Calculate subtype-specific signature proteins based on the proteome and map them
@@ -25,8 +27,11 @@ Calculate subtype-specific signature proteins based on the proteome and map them
 }
 \examples{
 \dontrun{
-  data(Expr_Group)
-  getModule(exprDF=Expr,groupDF=Group,subtype="G-IV")
+  expr_file <- "inst/extdata/expression.txt"
+  group_file <- "inst/extdata/group.txt"
+  subtype <- "G-IV"
+  ppi_file <- "inst/extdata/ppi_String400.txt"
+  getModule(expr_file,group_file,subtype,ppi_file)
 }
 
 }

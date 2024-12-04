@@ -4,15 +4,13 @@
 \alias{getDRN}
 \title{Construct the drug response network}
 \usage{
-getDRN(moduleDF, drugDF)
+getDRN(expr_file)
 }
 \arguments{
-\item{moduleDF}{A data frame storing expression values of the module, with rows representing proteins and columns representing samples.}
-
-\item{drugDF}{A data frame storing drug sensitivity scores predicted by the module, with rows representing samples and columns representing drugs.}
+\item{expr_file}{Expression profile of the module, with rows representing proteins and columns representing samples.}
 }
 \value{
-a list containing the drug response network and its node information
+This function doesn't return anything, but saves the results to the "NetSDR_results/DRN" files.
 }
 \description{
 This function utilizes protein expression within modules and predicted drug sensitivity scores based on
@@ -21,8 +19,8 @@ This function utilizes protein expression within modules and predicted drug sens
 }
 \examples{
 \dontrun{
-  drugDF <- read.csv("calcPhenotype_Output/DrugPredictions.csv",row.names = 1,check.names = F)
-  getDRN(moduleDF,drugDF)
+  expr_file <- "inst/extdata/expression_module.txt"
+  getDRN(expr_file)
 }
 
 }

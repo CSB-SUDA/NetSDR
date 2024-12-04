@@ -3,24 +3,46 @@
 #'    module expression profiles to compare scores between two groups with high and low expression of a particular protein.
 #'    If there is a significant difference (p < 0.05), it suggests a potential interaction between the drug and the protein.
 #'
-#' @param moduleDF A data frame storing expression values of the module, with rows representing proteins and columns representing samples.
-#' @param drugDF A data frame storing drug sensitivity scores predicted by the module, with rows representing samples and columns representing drugs.
+#' @param expr_file Expression profile of the module, with rows representing proteins and columns representing samples.
 #'
-#' @return a list containing the drug response network and its node information
+#' @return This function doesn't return anything, but saves the results to the "NetSDR_results/DRN" files.
 #' @export
-#' @import utils
+#' @import utils oncoPredict
 #' @importFrom stats median wilcox.test
 #' @examples
 #' \dontrun{
-#'   drugDF <- read.csv("calcPhenotype_Output/DrugPredictions.csv",row.names = 1,check.names = F)
-#'   getDRN(moduleDF,drugDF)
+#'   expr_file <- "inst/extdata/expression_module.txt"
+#'   getDRN(expr_file)
 #' }
 #'
-getDRN <- function(moduleDF,drugDF){
 
-  moduleData <- data.frame(t(moduleDF))
+getDRN <- function(expr_file){
+
+  data("GDSC2_Expr")
+  data("GDSC2_Res")
+  testData <- read.table(expr_file,header=T,sep = "\t",row.names = 1)
+
+  out_dir <- "NetSDR_results/DRN"
+  dir.create(out_dir,recursive = T)
+  setwd(out_dir)
+
+  # Predict patients' clinical responses based on module expressions.
+  testExpr <- as.matrix(testData)
+  calcPhenotype(trainingExprData = GDSC2_Expr,
+                trainingPtype = GDSC2_Res,
+                testExprData = testExpr,
+                batchCorrect = 'eb',
+                powerTransformPhenotype = TRUE,
+                removeLowVaryingGenes = 0,
+                minNumSamples = 10,
+                printOutput = TRUE,
+                removeLowVaringGenesFrom = 'rawData',
+                cc = TRUE)
+
+  moduleData <- data.frame(t(testData))
   moduleLabel <- apply(moduleData, 2, function(x) {ifelse(x > median(x), "high", "low")})
-  drugData <- drugDF
+
+  drugData <- read.csv("./calcPhenotype_Output/DrugPredictions.csv",row.names = 1,check.names = F)
   dat <- merge(moduleLabel,drugData,by="row.names")
   rownames(dat) <- dat$Row.names
   dat <- dat[,-1]
@@ -51,12 +73,10 @@ getDRN <- function(moduleDF,drugDF){
   DPI_all <- data.frame("protein"=proteins,"drug"=drugs,"pvalue"=pvalue)
   DPI_all$label <- ifelse(DPI_all$pvalue < 0.05,"sig","non-sig")
   DRN <- subset(DPI_all,DPI_all$pvalue < 0.05)
-  DRN.info <- data.frame(node = c(protein,drug),type = c(rep("protein",length(protein)),rep("drug",length(drug))))
-  DRN_list <- list(DRN=DRN,DRN.info=DRN.info)
-
   write.table(DRN,"DRN.txt",sep = "\t",quote = F,row.names = F)
+  DRN.info <- data.frame(node = c(protein,drug),type = c(rep("protein",length(protein)),rep("drug",length(drug))))
   write.table(DRN.info,"DRN_info.txt",sep = "\t",quote = F,row.names = F)
 
-  return(DRN_list)
+  setwd("../..")
 
 }

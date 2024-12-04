@@ -2,7 +2,7 @@
 #' @description This function performs ROC validation on the predicted DPI. Extract DPIs greater than or equal to a certain ps in sequence,
 #'     allocate 1 (known) and 0 (unknown) according to the drug-target interactions of TTD and DrugBank, and perform ROC analysis.
 #'
-#' @param pred_DPI A data frame contains DPIs and their ps, where the first column represents drugs, the second column represents proteins, and the third column represents the ps value.
+#' @param DPI_ps_file The path to file containing DPIs and their ps, where the first column represents drugs, the second column represents proteins, and the third column represents the ps value.
 #'
 #' @return A data frame storing AUC from different cut-off.
 #' @import utils pROC
@@ -10,12 +10,15 @@
 #'
 #' @examples
 #' \dontrun{
-#'   runROC(pred_DPI)
+#'   DPI_ps_file <- "inst/extdata/dpi_ps_score.txt"
+#'   runROC(DPI_ps_file)
 #' }
 #'
-runROC <- function(pred_DPI){
+#'
 
-  # Load known drug-target interaction information
+runROC <- function(DPI_ps_file){
+
+    # Load known drug-target interaction information
   data("DTI_TTD")
   data("DTI_DrugBank")
 
@@ -24,7 +27,7 @@ runROC <- function(pred_DPI){
   drug2target <- unique(drug2target)
 
   # Load predicted DPI
-  pred_dpi <- pred_DPI
+  pred_dpi <- read.table(DPI_ps_file,header = T,sep = "\t")
   colnames(pred_dpi)[1:3] <- c("Drug.Name","Target.Name","score")
   pred_dpi$Drug.Name <- substring(pred_dpi$Drug.Name,1,nchar(pred_dpi$Drug.Name)-5)
   pred_dpi$Drug.Name <- toupper(pred_dpi$Drug.Name)

@@ -5,24 +5,22 @@
 \title{Predict the binding affinity between drugs and proteins}
 \usage{
 getAffinity(
-  smilesDF,
-  seqDF,
-  DRN,
-  condaenv,
-  path,
+  smiles_file,
+  seq_file,
+  DRN_file,
+  py_env,
   pretrained_model = "MPNN_CNN_BindingDB_IC50"
 )
 }
 \arguments{
-\item{smilesDF}{A data frame with "drug" column as the drug name and "SMILES" column as the simplified molecular input line entry system format of the drug.}
+\item{smiles_file}{The information of simplified molecular input line entry system format of the drug, where the first column is the name or ID of the drug,
+and the second column is its smiles symbol.}
 
-\item{seqDF}{A data frame with "protein" column as symbols of proteins and "Sequence" column as the amino acid sequences of the proteins.}
+\item{seq_file}{The amino acid sequences of proteins, with the first column representing the protein symbol and the second column representing the sequence.}
 
-\item{DRN}{A data frame contains two columns: "drug"(drug name) and "protein"(symbol).}
+\item{DRN_file}{Drug-protein interaction data, contains two columns: the first column is "protein" (symbol), and the second column is "drug" (drug name).}
 
-\item{condaenv}{The virtual environment path for DeepPurpose installed using conda.}
-
-\item{path}{The path where the DeepPurpose package is located.}
+\item{py_env}{The virtual environment path for python installed using conda.}
 
 \item{pretrained_model}{The DeepPurpose model type used, which defaults to 'MPNN_CNN_BindingDB_IC50'.}
 }
@@ -32,11 +30,11 @@ The function uses the DeepPurpose tool to predict the binding affinity between d
 }
 \examples{
 \dontrun{
-  data(drug_smiles)
-  data(protein_sequences)
-  data(DRN)
-  getAffinity(smiles,seqs,DRN,condaenv="C:/Users/A/.conda/envs/DeepPurpose",
-    path="C:/Users/A/DeepPurpose")
+  smiles_file <- "inst/extdata/smiles.txt"
+  seq_file <- "inst/extdata/sequences.txt"
+  DRN_file <- "inst/extdata/DRN.txt"
+  py_env <- "D:/Software/anaconda3/envs/py3.9"
+  getAffinity(smiles_file,seq_file,DRN_file,py_env)
 }
 
 }

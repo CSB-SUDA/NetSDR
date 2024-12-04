@@ -5,25 +5,33 @@
 #'     the subtype-specific network, while the 'node_Module.txt' and 'edge_Module.txt' files provide
 #'     information on the nodes and edges of robust modules, respectively.
 #'
-#' @param exprDF A data frame storing expression values without log2 transformation, with rows representing proteins and columns representing samples.
-#' @param groupDF A data frame storing subtype information, with the first column being samples and the second column being subtype grouping.
+#' @param expr_file  Expression profile without log2 transformation, with rows representing proteins and columns representing samples.
+#' @param group_file Subtype information, with the first column being samples and the second column being subtype grouping.
 #' @param subtype A vector representing the analysis of a specific subtype.
+#' @param ppi_file Interactome data used to construct networks.
 #'
-#' @return This function doesn't return anything, but saves the results to the specified files.
+#' @return This function doesn't return anything, but saves the results to the "NetSDR_results/Modules" files.
 #' @import utils igraph
 #' @importFrom stats phyper wilcox.test
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#'   data(Expr_Group)
-#'   getModule(exprDF=Expr,groupDF=Group,subtype="G-IV")
+#'   expr_file <- "inst/extdata/expression.txt"
+#'   group_file <- "inst/extdata/group.txt"
+#'   subtype <- "G-IV"
+#'   ppi_file <- "inst/extdata/ppi_String400.txt"
+#'   getModule(expr_file,group_file,subtype,ppi_file)
 #' }
 #'
-getModule <- function(exprDF,groupDF,subtype){
 
-  expr <- exprDF
-  group <- groupDF
+getModule <- function(expr_file,group_file,subtype,ppi_file){
+
+  out_dir <- "NetSDR_results/Modules"
+  dir.create(out_dir,recursive = T)
+
+  expr <- read.table(expr_file,header=T,sep = "\t",row.names = 1)
+  group <- read.table(group_file,header=T,sep = "\t")
   colnames(group) <- c("Sample","Group")
   egSample = group[group$Group == subtype,"Sample"]
   cgSample = group[group$Group != subtype,"Sample"]
@@ -53,15 +61,18 @@ getModule <- function(exprDF,groupDF,subtype){
   result$label <- rep("non-significant",nrow(result))
   result$label[result$p.value < 0.05 & result$log2FoldChange > 1 & result$frequency > freq.cf] = "up"
   result$label[result$p.value < 0.05 & result$log2FoldChange < -1 & result$frequency > freq.cf] = "down"
+  write.csv(result,paste0(out_dir,"/all_proteins.csv"),row.names = F,quote = F)
 
   signature <- subset(result,result$label != "non-significant")
-  write.csv(signature,"./signature.csv",row.names = F)
+  write.csv(signature,paste0(out_dir,"/signature.csv"),row.names = F)
 
   message("Identify network modules...", appendLF = T)
-  data("HPPIN")
-
+  #data("HPPIN")
   # Map signature proteins to human protein-protein interaction network
-  network <- HPPIN[HPPIN$node1%in%signature$protein & HPPIN$node2%in%signature$protein,]
+  ppi_net <- read.table(ppi_file,header = T,sep = "\t")
+  colnames(ppi_net) <- c("node1","node2")
+  network <- ppi_net[ppi_net$node1%in%signature$protein & ppi_net$node2%in%signature$protein,]
+  write.table(network,paste0(out_dir,"/network.txt"),row.names = F,sep = "\t",quote = F)
 
   # Create the network
   edges <- network
@@ -120,18 +131,27 @@ getModule <- function(exprDF,groupDF,subtype){
   modules <- data.frame(node = unlist(sig_list),
                         module = rep(1:length(sig_list),times=as.vector(sapply(sig_list, length))))
   row.names(modules) <- modules$node
+  modules$module <- paste0("M",modules$module)
 
   # Get module label of each interaction.
   edges <- edges[,1:2]
-  edges$module <- apply(edges, 1, function(x) ifelse((!x[1]%in%modules$node)|(!x[2]%in%modules$node),0,
-                                                     ifelse(modules[x[1],2]==modules[x[2],2],modules[x[1],2],0)))
+  edges$module <- apply(edges, 1, function(x) ifelse((!x[1]%in%modules$node)|(!x[2]%in%modules$node),"M0",
+                                                     ifelse(modules[x[1],2]==modules[x[2],2],modules[x[1],2],"M0")))
   # Extract interactions of robustness modules
-  patternM <- edges[!edges$module==0,]
+  patternM <- edges[!edges$module=="M0",]
 
   # Write the modules and edges data frames to separate output files
-  write.table(modules,"node_Module.txt",sep="\t",quote=F,row.names=F,col.names=c("node","module"))
-  write.table(patternM,"edge_Module.txt",sep="\t",quote=F,row.names=F,col.names=c("node1","node2","module"))
-  write.table(edges,"edges.txt",sep="\t",quote=F,row.names=F,col.names=c("node1","node2","module"))
+  write.table(modules,paste0(out_dir,"/node_Module.txt"),sep="\t",quote=F,row.names=F,col.names=c("node","module"))
+  write.table(patternM,paste0(out_dir,"/edge_Module.txt"),sep="\t",quote=F,row.names=F,col.names=c("node1","node2","module"))
+  write.table(edges,paste0(out_dir,"/edges.txt"),sep="\t",quote=F,row.names=F,col.names=c("node1","node2","module"))
   message("Module identification succeeded!")
 
+  # Select the modules
+  node_count <- data.frame(table(modules$module))
+  colnames(node_count) <- c("module","count")
+  count1 <- node_count[node_count$count>9,]
+  node_secl <- modules[modules$module %in% count1$module,]
+  write.table(node_secl,paste0(out_dir,"/node_Module_select.txt"),sep = "\t",quote = FALSE,row.names = FALSE)
+  message("Modules with more than 9 nodes are selected!")
 }
+

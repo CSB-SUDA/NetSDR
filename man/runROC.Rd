@@ -4,10 +4,10 @@
 \alias{runROC}
 \title{Perform ROC analysis}
 \usage{
-runROC(pred_DPI)
+runROC(DPI_ps_file)
 }
 \arguments{
-\item{pred_DPI}{A data frame contains DPIs and their ps, where the first column represents drugs, the second column represents proteins, and the third column represents the ps value.}
+\item{DPI_ps_file}{The path to file containing DPIs and their ps, where the first column represents drugs, the second column represents proteins, and the third column represents the ps value.}
 }
 \value{
 A data frame storing AUC from different cut-off.
@@ -18,7 +18,9 @@ This function performs ROC validation on the predicted DPI. Extract DPIs greater
 }
 \examples{
 \dontrun{
-  runROC(pred_DPI)
+  DPI_ps_file <- "inst/extdata/dpi_ps_score.txt"
+  runROC(DPI_ps_file)
 }
+
 
 }

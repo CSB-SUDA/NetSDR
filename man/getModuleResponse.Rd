@@ -4,13 +4,13 @@
 \alias{getModuleResponse}
 \title{Calculate the drug response levels of the modules}
 \usage{
-getModuleResponse(moduleDF)
+getModuleResponse(expr_file)
 }
 \arguments{
-\item{moduleDF}{A data frame storing expression values of the module, with rows representing proteins and columns representing samples.}
+\item{expr_file}{Expression profile of the module, with rows representing proteins and columns representing samples.}
 }
 \value{
-The number of significantly affected and unaffected drugs.
+This function doesn't return anything, but saves the results to the "NetSDR_results/DRN" files.
 }
 \description{
 This function predicts the clinical drug response of patients with a specific subtype
@@ -19,7 +19,8 @@ This function predicts the clinical drug response of patients with a specific su
 }
 \examples{
 \dontrun{
-  sig_count <- getModuleResponse(moduleDF)
+  expr_file <- "inst/extdata/expression_module.txt"
+  getModuleResponse(expr_file)
 }
 
 }

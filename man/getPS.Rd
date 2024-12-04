@@ -4,16 +4,14 @@
 \alias{getPS}
 \title{Calculat drug score(ps) using PRS methods for DRN.}
 \usage{
-getPS(BA_file, PPIN_file, condaenv, path)
+getPS(BA_file, PPIN_file, py_env)
 }
 \arguments{
 \item{BA_file}{The path to the predicted binding affinity file.}
 
 \item{PPIN_file}{The path to the PPI network file (or to a certain module).}
 
-\item{condaenv}{The virtual environment path for DeepPurpose installed using conda.To maintain consistency in Python, we use the Python version in the DeepPurpose environment.}
-
-\item{path}{The path to the enm package. Its code is downloaded from https://github.com/oacar/enm_package, which can be placed in any path.}
+\item{py_env}{The virtual environment path for python installed using conda.}
 }
 \value{
 A data frame contains the ps of DPI.
@@ -23,8 +21,10 @@ This function uses the PRS algorithm to calculate the ps of DPIs and saves it in
 }
 \examples{
 \dontrun{
-  getPS(BA_file="result/virtual_screening.txt",PPIN_file="edge.txt",
-    condaenv="C:/Users/A/.conda/envs/DeepPurpose",path="D:/enm_package-master")
+  py_env <- "D:/Software/anaconda3/envs/py3.9"
+  BA_file <- "inst/extdata/virtual_screening.txt"
+  PPIN_file <- "inst/extdata/edge_module.txt"
+  getPS(BA_file,PPIN_file,py_env)
 }
 
 }
