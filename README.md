@@ -68,13 +68,11 @@ If installing NetSDR via `devtools` fails, its source code can be directly downl
 The `getModule` function can identify subtype-specific modules, which accepts three parameters:
 * _expr_file_: The path of expression profile. The specific format is：
 
+|| sample1 | sample2 |
+| --- | --- | --- |
+| protein1 | 2.345 | 6.480 |
+| protein2 | 7.985 | 4.621  |
 
-      | sample1  | sample2  | ...
- ---- | ---- | ----- | ------  
- protein1 | 5.2132  | 7.8326 | 1.2334 
- protein2 |  0.4123  | 3.4862 | 9.6734 
- ....
-  
 * _group_file_: A data frame storing subtype information, with the first column being samples and the second column being subtype grouping.
 * _sppi_file_: A vector representing the analysis of a specific subtype.
 
