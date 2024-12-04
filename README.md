@@ -155,13 +155,15 @@ The `getAffinity` function can predicts the binding affinity, with five paramete
 * _DRN_file_: The path of the file storing the predicted drug response network by `getDRN` function, such as: DRN_file = "NetSDR_results/DRN/DRN.txt".
 * _py_env_: The virtual environment path for py3.9 installed using anaconda3, which can be obtained by running `conda env list` in `Anaconda Prompt`.
 * _pretrained_model_: The DeepPurpose model type used, which defaults to 'MPNN_CNN_BindingDB_IC50'.
-It outputs the result file "result/virtual_screening.txt" in "NetSDR_results/PS" dir, which is used for ps calculation.
+* 
+**It outputs the result file "result/virtual_screening.txt" in "NetSDR_results/PS" dir, which is used for ps calculation.**
 
 The `getPS` function accepts four parameters:
 * _BA_file_: The path to the binding affinity file predicted by the `getAffinity` function, such as "NetSDR_results/PS/result/virtual_screening.txt".
 * _PPIN_file_: The path to the PPI network file (or to a certain module). This file contains protein-protein interactions with columns named gene1 and gene2
 * _py_env_: The virtual environment path for py3.9 installed using anaconda3, same as  `getAffinity`.
-It returns a data frame contains the ps and saves it in the "prs_dti_score.csv" file.
+* 
+**It returns a data frame contains the ps and saves it in the "NetSDR_results/PS/prs_dti_score.csv" file.**
 
 ```
 # Predict the binding affinity between drugs and proteins
@@ -188,10 +190,9 @@ It returns a data frame contains the ps and saves it in the "prs_dti_score.csv" 
 ***Run ROC analysis***
 ```
 # Read the file containing the ps scores obtained in the previous step
-DPI <- read.csv("prs_dti_score.csv")
-DPI <- DPI[,c("Drug.Name","Target.Name","score")]
-runROC(pred_DPI=DPI)
+DPI_ps_file <- "inst/extdata/dpi_ps_score.txt"
+runROC(DPI_ps_file)
 ```
-The parameter _pred_DPI_ of function `runROC` is a data frame contains DPIs and their ps. It perform the ROC analysis for different ps cut-off in sequence and returns their AUCs.
+The parameter _DPI_ps_file_ of function `runROC` is the path of the file containing DPIs and their ps. It perform the ROC analysis for different ps cut-off in sequence and returns their AUCs.
 
 > ***Note:*** _For more detailed information about each function, please refer to the function comments in the respective script._
