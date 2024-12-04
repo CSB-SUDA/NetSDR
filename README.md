@@ -30,7 +30,7 @@ conda deactivate
 ```
 The Python environment is created to use the DeepPurpose tool and PRS analysis. For more details about DeepPurpose, please visit https://github.com/kexinhuang12345/DeepPurpose.
 
-**Note that the path to the py3.9 environment should be obtained using `conda env list`. In subsequent analyses, this path will be used as a parameter in the functions of NetSDR.**
+> **Note that the path to the py3.9 environment should be obtained using `conda env list`. In subsequent analyses, this path will be used as a parameter in the functions of NetSDR.**
 
 
 ### Install NetSDR package in R
@@ -105,7 +105,7 @@ getModule(expr_file,group_file,subtype,ppi_file)
 It generates `NetSDR_results/Modules` result file, including:
 * The signature proteins are saved in the _'signature.csv'_ file.
 * The _'network.txt'_ stores a network composed of signature proteins.
-* The _'edges.txt'_ file stores the subtype-specific network
+* The _'edges.txt'_ file stores the subtype-specific network.
 * The _'node_Module.txt'_ and _'edge_Module.txt'_ files provide information on the nodes and edges of robust modules, respectively.
 * The _'node_Module_select.txt_' provides information on modules with more than 9 nodes.
 
