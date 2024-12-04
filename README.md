@@ -126,34 +126,57 @@ The `getDRN` function is used to build a drug response network, with _"expr_file
 expr_file <- "inst/extdata/expression_module.txt"
 getDRN(expr_file)
 ```
-It exports `NetSDR_results/Modules` result file, including:
+It exports `NetSDR_results/DRN` result file, including:
 * _calcPhenotype_Output_: The results predicted by DeepPurpose tools.
 * _DRN.txt_: The predicted drug response network.
 * _DRN_info.txt_: Annotation information of nodes in the drug response network.
 
 #### Step3: Perform PRS-based Drug Repurposing.
-```
-# Load the the constructed drug response network (DRN)
-data(DRN)
-# Load the simplified molecular input line entry system(SMILES) format of the drugs
-data(drug_smiles)
-# Load the amino acid sequences of the proteins
-data(protein_sequences)
-# Predict the binding affinity between drugs and proteins
-getAffinity(smilesDF=smiles,seqDF=seqs,DRN=DRN,condaenv="C:/Users/A/.conda/envs/DeepPurpose",path="C:/Users/A/DeepPurpose")
-# Calculat drug score(ps) using PRS methods for DRN.
-getPS(BA_file="result/virtual_screening.txt",PPIN_file="edge.txt",condaenv="C:/Users/A/.conda/envs/DeepPurpose",path="D:/enm_package-master")
-```
 It initially predicts the binding affinity between drugs and proteins in the DRN, and then performs a drug repositioning method based on PRS to rank the DPIs.
+The `getAffinity` function can predicts the binding affinity, with five parameters as input:
+* _smiles_file_: The path of file storing drug smiles. The specific content is:
 
-The `getAffinity` function accepts six parameters:
-* _smilesDF_: A data frame with two columns named "drug" and "SMILES".
-* _seqDF_: A data frame with "protein" and "Sequence" columns.
-* _DRN_: A data frame contains two columns: "drug" and "protein".
-* _condaenv_: The virtual environment path for DeepPurpose installed using anaconda3.
-* _path_: The path where the DeepPurpose package is located.
+  | drug | SMILES |
+  | --- | --- |
+  | drug1 |	C1=CC=C(C=C1)NC(=O)CCCCCCC(=O)NO |
+  | drug2 |	C1=CC(=CC=C1/C=C\2/C(=O)NC(=N)S2)O |
+  | drug3 | C1=C(C(=O)NC(=O)N1)F |
+  | ... | ... |
+
+* _seq_file_: The path of file storing protein sequence. The specific content is:
+
+  | protein | Sequence |
+  | --- | --- |
+  | protein1 | MAADISESSGADCKGDPRNSAKLDADYPLRVLYCGVCSLPTEYCEYMPDVAKCRQWLEKNFPNEFAKLTVENSPKQEAGISEGQGTAGEEEEKKKQKRGGRGQIKQKKKTVPQKVTIAKIPRAKKKYVTRVCGLATFEIDLKEAQRFFAQKFSCGASVTGEDEIIIQGDFTDDIIDVIQEKWPEVDDDSIEDLGEVKK |
+  | protein2 | MPLAKDLLHPSPEEEKRKHKKKRLVQSPNSYFMDVKCPGCYKITTVFSHAQTVVLCVGCSTVLCQPTGGKARLTEGCSFRRKQH |
+  | protein3 | MPGPTPSGTNVGSSGRSPSKAVAARAAGSTVRQRKNASCGTRSAGRTTSAGTGGMWRFYTEDSPGLKVGPVPVLVMSLLFIASVFMLHIWGKYTRS |
+  | ... | ... |
+  
+* _DRN_file_: The path of the file storing the predicted drug response network by `getDRN` function, such as: DRN_file = "NetSDR_results/DRN/DRN.txt".
+* _py_env_: The virtual environment path for py3.9 installed using anaconda3, which can be obtained by running `conda env list` in `Anaconda Prompt`.
 * _pretrained_model_: The DeepPurpose model type used, which defaults to 'MPNN_CNN_BindingDB_IC50'.
-It outputs the results to the "result/virtual_screening.txt" file.
+It outputs the result file "result/virtual_screening.txt" in "NetSDR_results/PS" dir, which is used for ps calculation.
+
+The `getPS` function accepts four parameters:
+* _BA_file_: The path to the binding affinity file predicted by the `getAffinity` function, such as "NetSDR_results/PS/result/virtual_screening.txt".
+* _PPIN_file_: The path to the PPI network file (or to a certain module). This file contains protein-protein interactions with columns named gene1 and gene2
+* _py_env_: The virtual environment path for py3.9 installed using anaconda3, same as  `getAffinity`.
+It returns a data frame contains the ps and saves it in the "prs_dti_score.csv" file.
+
+```
+# Predict the binding affinity between drugs and proteins
+smiles_file <- "inst/extdata/smiles.txt"
+seq_file <- "inst/extdata/sequences.txt"
+DRN_file <- "NetSDR_results/DRN/DRN.txt"  #"inst/extdata/DRN.txt"
+py_env <- "D:/Software/anaconda3/envs/py3.9"
+getAffinity(smiles_file,seq_file,DRN_file,py_env)
+
+# Calculat drug score(ps) using PRS methods for DRN.
+py_env <- "D:/Software/anaconda3/envs/py3.9"
+BA_file <- "NetSDR_results/PS/result/virtual_screening.txt"  #"inst/extdata/virtual_screening.txt"
+PPIN_file <- "inst/extdata/edge_module.txt"
+getPS(BA_file,PPIN_file,py_env)
+```
 
 The `getPS` function accepts four parameters:
 * _BA_file_: The path to the binding affinity file predicted by the `getAffinity` function.
