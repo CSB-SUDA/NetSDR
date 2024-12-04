@@ -15,7 +15,23 @@
 * R
 * Anaconda3
 
-### Installation of NetSDR
+This package runs in R, but its functionality depends on Python scripts. Therefore, before using it, you need to create a virtual environment named "py3.9" using anaconda3, with the Python version no lower than 3.7. Please open the Anaconda Prompt and enter the following command:
+#### Install Python
+```
+conda create -n py3.9 python=3.9
+conda activate py3.9
+pip install rdkit
+pip install descriptastorus 
+pip install DeepPurpose
+pip install seaborn
+pip install goatools
+pip install prody
+conda deactivate
+```
+The Python environment is created to use the DeepPurpose tool and PRS analysis. For more details about DeepPurpose, please visit https://github.com/kexinhuang12345/DeepPurpose.
+**Note that the path to the py3.9 environment should be obtained using `conda env list`. In subsequent analyses, this path will be used as a parameter in the functions of NetSDR.**
+
+### Install NetSDR package in R
 Use the install_github function from the devtools library to download and install the NetSDR package.
 ```
 install.packages("devtools")
@@ -23,18 +39,6 @@ library(devtools)
 install_github("Bin-suda/NetSDR")
 library(NetSDR)
 ```
-
-### Installation of DeepPurpose and ProDy
-Use anaconda3 to install the DeepPurpose tool. Open the command line terminal and enter the following command:
-```
-git clone https://github.com/kexinhuang12345/DeepPurpose.git
-cd DeepPurpose
-conda env create -f environment.yml
-conda activate DeepPurpose
-pip install prody
-conda deactivate 
-```
-For more details about DeepPurpose, please visit https://github.com/kexinhuang12345/DeepPurpose
 
 ## Usage
 
@@ -45,10 +49,16 @@ NetSDR/
 ├── README.md
 ├── R/           <- Contains R scripts for the above framework calculations.
 ├── data/        <- Contains data files used by the package.
+├── inst/        <- Contains example data and Python scripts.
+│     ├── python/           <- Contains some code from enm_package.For more details, please visit https://github.com/oacar/enm_package.
+│            └── enm/       <- Source code for enm.
+│     ├── extdata/          <- Some example data.
 ├── man/         <- Contains .Rd help documentation.
 ├── DESCRIPTION  <- Package metadata.
-└── NAMESPACE    <- Package namespace information.
+├── NAMESPACE    <- Package namespace information.
+└── NetSDR.Rproj <- Rproject.
 ```
+If installing NetSDR via `devtools` fails, its source code can be directly downloaded. Then, open the `NetSDR.Rproj` file in R and run `devtools::build()` to create a local installation package for local installation.
 
 ### Usage Example
 
