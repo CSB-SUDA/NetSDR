@@ -78,28 +78,38 @@ The `getModule` function can identify subtype-specific modules, which accepts th
   
   |Sample| Group |
   | --- | --- |
-  | sample1 | group1 |
-  | sample2 | group1 |
-  | sample3 | group2 |
+  | sample1 | subtype1 |
+  | sample2 | subtype1 |
+  | sample3 | subtype2 |
   | ... | ... |
   
-* _sppi_file_: A vector representing the analysis of a specific subtype.
+* _subtype_: A vector representing the analysis of a specific subtype. For example, subtype="subtype1".
+
+* _ppi_file_: The path of interactome data.
+
+  |node1| node2 |
+  | --- | --- |
+  | protein1 | protein2 |
+  | protein1 | protein3 |
+  | protein2 | protein4 |
+  | ... | ... |
 
 ```
-data(Expr_Group)
-getModule(expr_file, group_file, subtype, ppi_file)
+expr_file <- "inst/extdata/expression.txt"
+group_file <- "inst/extdata/group.txt"
+subtype <- "G-IV"
+ppi_file <- "inst/extdata/ppi_String400.txt"
+getModule(expr_file,group_file,subtype,ppi_file)
 ```
-The `getModule` function accepts three parameters:
-* _exprDF_: A data frame storing expression values, with rows representing proteins and columns representing samples.
-* _groupDF_: A data frame storing subtype information, with the first column being samples and the second column being subtype grouping.
-* _subtype_: A vector representing the analysis of a specific subtype.
 
-It generates several result files, as follows:
+It generates `NetSDR_results/Modules` result file, including:
 * The signature proteins are saved in the _'signature.csv'_ file.
+* _'network.txt'_ stores a network composed of signature proteins.
 * The _'edges.txt'_ file stores the subtype-specific network
 * The _'node_Module.txt'_ and _'edge_Module.txt'_ files provide information on the nodes and edges of robust modules, respectively.
+* _'node_Module_select.txt_' provides information on modules with more than 9 nodes.
 
-Then, the module associated with drug response were identified. A drug response network is constructed on this module, and drug repositioning based on PRS is performed.
+Then, the module associated with drug response can be identified by `getModuleResponse` function . A drug response network is constructed on this module, and drug repositioning based on PRS is performed.
 
 #### Step2: Build a drug response network.
 ```
