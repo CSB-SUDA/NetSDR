@@ -6,8 +6,8 @@
 ![Framework](Picture/Framework.png)
 
 ## Highlights  
-* We proposed the NetSDR framework for drug repurposing for different can-cer subtypes.
-*	NetSDR integrated, proteomics and drug sensitivity data by network topol-ogyand biophysics-based analysis.
+* We proposed the NetSDR framework for drug repurposing for different cancer subtypes.
+*	NetSDR integrated, proteomics and drug sensitivity data by network topology and biophysics-based analysis.
 *	Apply NetSDR to gastric cancer revealed GSK1904529A as a repurposable drug for G-IV by targeting LAMB2.
 
 ## Installation
@@ -15,7 +15,7 @@
 * R
 * Anaconda3
 
-This package runs in R, but its functionality depends on Python scripts. Therefore, before using it, you need to create a virtual environment named "py3.9" using anaconda3, with the Python version no lower than 3.7. Please open the Anaconda Prompt and enter the following command:
+This package runs in R, but its functionality depends on Python scripts. Therefore, before using it, you need to create a virtual environment named `py3.9` using anaconda3, with the Python version no lower than 3.7. Please open the Anaconda Prompt and enter the following command:
 ### Install Python
 ```
 conda create -n py3.9 python=3.9
