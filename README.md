@@ -16,7 +16,7 @@
 * Anaconda3
 
 This package runs in R, but its functionality depends on Python scripts. Therefore, before using it, you need to create a virtual environment named "py3.9" using anaconda3, with the Python version no lower than 3.7. Please open the Anaconda Prompt and enter the following command:
-#### Install Python
+### Install Python
 ```
 conda create -n py3.9 python=3.9
 conda activate py3.9
@@ -31,6 +31,7 @@ conda deactivate
 The Python environment is created to use the DeepPurpose tool and PRS analysis. For more details about DeepPurpose, please visit https://github.com/kexinhuang12345/DeepPurpose.
 
 **Note that the path to the py3.9 environment should be obtained using `conda env list`. In subsequent analyses, this path will be used as a parameter in the functions of NetSDR.**
+
 
 ### Install NetSDR package in R
 Use the install_github function from the devtools library to download and install the NetSDR package.
@@ -64,10 +65,22 @@ If installing NetSDR via `devtools` fails, its source code can be directly downl
 ### Usage Example
 
 #### Step1: Identify subtype-specific modules.
+The `getModule` function can identify subtype-specific modules, which accepts three parameters:
+* _expr_file_: The path of expression profile. The specific format is：
+
+
+      | sample1  | sample2  | ...
+ ---- | ---- | ----- | ------  
+ protein1 | 5.2132  | 7.8326 | 1.2334 
+ protein2 |  0.4123  | 3.4862 | 9.6734 
+ ....
+  
+* _group_file_: A data frame storing subtype information, with the first column being samples and the second column being subtype grouping.
+* _sppi_file_: A vector representing the analysis of a specific subtype.
+
 ```
-# Load the proteome expression profiles and grouping information of subtypes.
 data(Expr_Group)
-getModule(exprDF=Expr,groupDF=Group,subtype="G-IV")
+getModule(expr_file, group_file, subtype, ppi_file)
 ```
 The `getModule` function accepts three parameters:
 * _exprDF_: A data frame storing expression values, with rows representing proteins and columns representing samples.
