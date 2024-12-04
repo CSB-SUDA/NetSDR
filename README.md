@@ -104,23 +104,32 @@ getModule(expr_file,group_file,subtype,ppi_file)
 
 It generates `NetSDR_results/Modules` result file, including:
 * The signature proteins are saved in the _'signature.csv'_ file.
-* _'network.txt'_ stores a network composed of signature proteins.
+* The _'network.txt'_ stores a network composed of signature proteins.
 * The _'edges.txt'_ file stores the subtype-specific network
 * The _'node_Module.txt'_ and _'edge_Module.txt'_ files provide information on the nodes and edges of robust modules, respectively.
-* _'node_Module_select.txt_' provides information on modules with more than 9 nodes.
+* The _'node_Module_select.txt_' provides information on modules with more than 9 nodes.
 
 Then, the module associated with drug response can be identified by `getModuleResponse` function . A drug response network is constructed on this module, and drug repositioning based on PRS is performed.
 
 #### Step2: Build a drug response network.
+The `getDRN` function is used to build a drug response network, with _"expr_file"_ as input, namely:
+* _expr_file_: The path of expression profile of a module, It contains the following information：
+
+  |  | sample1 | sample2 | ... |
+  | --- | --- | --- | --- |
+  | protein1 | 7.335 | 1.345 | ... |
+  | protein2 | 6.782 | 8.481  | ... |
+  | ... | ... | ...  |...|
+  
 ```
 # For example
-moduleDF <- Expr[1:50,1:20]
-sig_count <- getModuleResponse(moduleDF)
-drugDF <- read.csv("calcPhenotype_Output/DrugPredictions.csv",row.names = 1,check.names = F)
-DRN_ls <- getDRN(moduleDF,drugDF)
+expr_file <- "inst/extdata/expression_module.txt"
+getDRN(expr_file)
 ```
-At first, it predicts the clinical drug response of patients within a specific subtype based on module expression `moduleDF` specific to that subtype. Then, They are utilized to predict potential interactions between the drug and the protein.
-It returns a list containing the drug response network and its node information.
+It exports `NetSDR_results/Modules` result file, including:
+* _calcPhenotype_Output_: The results predicted by DeepPurpose tools.
+* _DRN.txt_: The predicted drug response network.
+* _DRN_info.txt_: Annotation information of nodes in the drug response network.
 
 #### Step3: Perform PRS-based Drug Repurposing.
 ```
