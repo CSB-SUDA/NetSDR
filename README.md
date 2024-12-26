@@ -218,6 +218,7 @@ py_env <- "D:/Software/anaconda3/envs/py3.9"
 getAffinity(smiles_file,seq_file,DRN_file,py_env)
 ```
 It outputs the result file "result/virtual_screening.txt" in "NetSDR_results/PS" dir, which is used for ps calculation.The content of "virtual_screening.txt" is as follows:
+
   +------+-------------------------------+-------------+---------------+
   | Rank |           Drug Name           | Target Name | Binding Score |
   +------+-------------------------------+-------------+---------------+
