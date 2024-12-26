@@ -220,11 +220,17 @@ getAffinity(smiles_file,seq_file,DRN_file,py_env)
 It outputs the result file "result/virtual_screening.txt" in "NetSDR_results/PS" dir, which is used for ps calculation.The content of "virtual_screening.txt" is as follows:
 
   +------+-------------------------------+-------------+---------------+
+  
   | Rank |           Drug Name           | Target Name | Binding Score |
+  
   +------+-------------------------------+-------------+---------------+
+  
   |  1   |             drug4             |    pro11    |     61.69     |
+  
   |  2   |             drug1             |    pro2     |     38.48     |
+  
   |  3   |             drug10            |    pro1     |     37.10     |
+  
 
   
 The `getPS` function accepts four parameters:
